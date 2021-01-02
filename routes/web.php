@@ -13,31 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [\App\Http\Controllers\HelloController::class, 'sayHello']);
+
+Route::get('/categories', [\App\Http\Controllers\NewsController::class, 'showCategories'])
+    ->name('categories');
+
+Route::get('/categories/{id}', [\App\Http\Controllers\NewsController::class, 'showAllNewsOfCategory'])
+    ->where('id', '\d+')
+    ->name('categories.id');
+
+Route::get('/categories/{categoryId}/news/{id}', [\App\Http\Controllers\NewsController::class, 'showOneNews'])
+    ->where(['categoryId' => '\d+', 'id' => '\d+'])
+    ->name('categories.categoryId.news.id');
+
+Route::group(['prefix' => 'admin/news', 'name' => 'admin.'], function () {
+    Route::get('/', [\App\Http\Controllers\Admin\NewsController::class, 'index'])
+        ->name('news');
+
+    Route::get('/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])
+        ->name('news.create');
+
+    Route::get('/{slug}/{id}/edit', [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
+        ->where(['slug' => '\w+', 'id' => '\d+'])
+        ->name('news.edit');
 });
 
-Route::get('/hello/{name}', function (string $name) {
-    echo "Приветствую, {$name}";
-});
-
-Route::get('/about', function () {
-    echo "Here is some information about project";
-});
-
-Route::get('/news', function () {
-    return <<<ddd
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>News</title>
-</head>
-<body>
-    <div>Some news</div>
-    <div>Some news</div>
-    <div>Some news</div>
-</body>
-</html>
-ddd;
-});
