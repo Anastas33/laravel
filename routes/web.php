@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\HelloController::class, 'sayHello']);
+Route::get('/', [\App\Http\Controllers\HelloController::class, 'sayHello'])
+    ->name('main');
 
 Route::get('/categories', [\App\Http\Controllers\NewsController::class, 'showCategories'])
     ->name('categories');
+
+Route::get('/news', [\App\Http\Controllers\NewsController::class, 'showAllNews'])
+    ->name('news');
 
 Route::get('/categories/{id}', [\App\Http\Controllers\NewsController::class, 'showAllNewsOfCategory'])
     ->where('id', '\d+')
@@ -26,15 +30,15 @@ Route::get('/categories/{categoryId}/news/{id}', [\App\Http\Controllers\NewsCont
     ->where(['categoryId' => '\d+', 'id' => '\d+'])
     ->name('categories.categoryId.news.id');
 
-Route::group(['prefix' => 'admin/news', 'name' => 'admin.'], function () {
-    Route::get('/', [\App\Http\Controllers\Admin\NewsController::class, 'index'])
-        ->name('news');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/news', [\App\Http\Controllers\Admin\NewsController::class, 'index'])
+        ->name('admin.news');
 
-    Route::get('/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])
-        ->name('news.create');
+    Route::get('/news/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])
+        ->name('admin.news.create');
 
-    Route::get('/{slug}/{id}/edit', [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
+    Route::get('/news/{id}/edit', [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
         ->where(['slug' => '\w+', 'id' => '\d+'])
-        ->name('news.edit');
+        ->name('admin.news.edit');
 });
 

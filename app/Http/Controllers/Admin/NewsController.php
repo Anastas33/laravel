@@ -8,20 +8,28 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
     /**
-     * @return string
+     *
      */
-    public function index(): string
+    public function index()
     {
-        return "Список новостей";
+        return view('admin.news.index', [
+            'news' => $this->news,
+            'categories' => $this->categories
+        ]);
+    }
+
+    public function create()
+    {
+        return view('admin.news.create');
     }
 
     /**
-     * @param string $slug
      * @param int $id
-     * @return string
      */
-    public function edit(string $slug, int $id): string
+    public function edit(int $id)
     {
-        return "Редактировать новость #ID {$id}, слаг {$slug}";
+        return view('admin.news.edit', [
+            'id' => $id
+        ]);
     }
 }

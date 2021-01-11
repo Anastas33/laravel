@@ -7,26 +7,12 @@ use Illuminate\Support\Arr;
 
 class NewsController extends Controller
 {
-    /**
-     * @return string
-     */
-    public function showCategories(): string
+    public function showCategories()
     {
         if(!empty($this->categories)) {
-            $html = "<h1>Категории новостей</h1>";
-            foreach ($this->categories as $key => $category) {
-                $html .= <<<ccc
-<h2>
-    <a href="/categories/{$key}">{$category['title']}</a>
-</h2>
-ccc;
-            }
-            $html .= <<<kkk
-<p>
-    <a href="/">Вернуться на главную страницу</a>
-</p>
-kkk;
-            return $html;
+            return view('news.showCategories', [
+                'categories' => $this->categories
+            ]);
         }
 
         return redirect('/');
@@ -34,9 +20,8 @@ kkk;
 
     /**
      * @param int $id
-     * @return string
      */
-    public function showAllNewsOfCategory(int $id): string
+    public function showAllNewsOfCategory(int $id)
     {
         $news = Arr::where($this->news, function ($value, $key) use ($id) {
             if($value['category_id'] == $id) {
@@ -45,49 +30,47 @@ kkk;
         });
 
         if(!empty($news)) {
-            $html = "<h1>Новости из категории {$this->categories[$id]['title']}</h1>";
-            foreach ($news as $key => $value) {
-                $html .= <<<aaa
-<h2>
-    <a href="/categories/{$id}/news/{$key}">{$value['title']}</a>
-</h2>
-<hr>
-aaa;
-            }
-            $html .= <<<bbb
-<p>
-    <a href="/categories">Вернуться назад</a>
-</p>
-bbb;
-            return $html;
+            return view('news.showAllNewsOfCategory', [
+                'news' => $news,
+                'categories' => $this->categories,
+                'id' => $id
+            ]);
         }
 
-        return redirect('/categories');
+        return redirect()->route('categories');
     }
 
     /**
      * @param int $categoryId
      * @param int $id
-     * @return string
      */
-    public function showOneNews(int $categoryId, int $id): string
+    public function showOneNews(int $categoryId, int $id)
     {
         $news = Arr::where($this->news, function ($value, $key) use ($id, $categoryId) {
             if($value['category_id'] == $categoryId && $key == $id) {
                 return $value;
             }
-        })[$id];
+        });
 
-        if(!empty($news)) {
-            return <<<qqq
-<h1>{$news['title']}</h1>
-<div>{$news['text']}</div>
-<p>
-    <a href="/categories/{$categoryId}">Вернуться назад</a>
-</p>
-qqq;
+        if(isset($news[$id])) {
+            $news = $news[$id];
         }
 
-        return redirect('/categories/{$categoryId}');
+        if(!empty($news)) {
+            return view('news.showOneNews', [
+                'news' => $news,
+                'categoryId' => $categoryId
+            ]);
+        }
+
+        return redirect()->route('categories.id', ['id' => $categoryId]);
+    }
+
+    public function showAllNews()
+    {
+        return view('news.showAllNews', [
+            'news' => $this->news,
+            'categories' => $this->categories
+        ]);
     }
 }
