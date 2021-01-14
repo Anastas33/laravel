@@ -13,32 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\HelloController::class, 'sayHello'])
+Route::get('/', [\App\Http\Controllers\Guest\HelloController::class, 'sayHello'])
     ->name('main');
 
-Route::get('/categories', [\App\Http\Controllers\NewsController::class, 'showCategories'])
-    ->name('categories');
+Route::get('/allNews', [\App\Http\Controllers\Guest\AllNewsController::class, 'index'])
+    ->name('allNews');
 
-Route::get('/news', [\App\Http\Controllers\NewsController::class, 'showAllNews'])
-    ->name('news');
+Route::resources([
+    '/categories' => \App\Http\Controllers\Guest\CategoryController::class,
+    '/categories.news' => \App\Http\Controllers\Guest\NewsController::class,
+    '/feedback' => \App\Http\Controllers\Guest\FeedbackController::class,
+    '/order' => \App\Http\Controllers\Guest\OrderController::class
+]);
 
-Route::get('/categories/{id}', [\App\Http\Controllers\NewsController::class, 'showAllNewsOfCategory'])
-    ->where('id', '\d+')
-    ->name('categories.id');
-
-Route::get('/categories/{categoryId}/news/{id}', [\App\Http\Controllers\NewsController::class, 'showOneNews'])
-    ->where(['categoryId' => '\d+', 'id' => '\d+'])
-    ->name('categories.categoryId.news.id');
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/news', [\App\Http\Controllers\Admin\NewsController::class, 'index'])
-        ->name('admin.news');
-
-    Route::get('/news/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])
-        ->name('admin.news.create');
-
-    Route::get('/news/{id}/edit', [\App\Http\Controllers\Admin\NewsController::class, 'edit'])
-        ->where(['slug' => '\w+', 'id' => '\d+'])
-        ->name('admin.news.edit');
+    Route::resource('/news', \App\Http\Controllers\Admin\NewsController::class);
 });
 

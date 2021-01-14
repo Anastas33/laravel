@@ -8,7 +8,7 @@
     @forelse ($news as $key => $value)
         @isset($value['title'])
             <h2>
-                <a href="{{ route('categories.categoryId.news.id', ['categoryId' => $id, 'id' => $key]) }}">{{ $value['title'] }}</a>
+                <a href="{{ route('categories.news.show', ['category' => $id, 'news' => $key]) }}">{{ $value['title'] }}</a>
             </h2>
             <hr>
         @endisset

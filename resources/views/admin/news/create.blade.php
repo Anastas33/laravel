@@ -6,7 +6,8 @@
 @section('content')
     <h1>Добавить новую запись</h1>
     <br>
-    <form method="post">
+    <form method="post" action="{{ route('news.store') }}">
+        @csrf
         <div class="form-group">
             <label for="category_id">Категория</label>
             <select class="form-control" name="category_id" id="category_id">
@@ -19,15 +20,11 @@
         </div>
         <div class="form-group">
             <label for="title">Заголовок</label>
-            <input type="text" class="form-control" name="title" id="title">
-        </div>
-        <div class="form-group">
-            <label for="slug">Слаг</label>
-            <input type="text" class="form-control" name="slug" id="slug">
+            <input type="text" class="form-control" name="title" value="{{ old('title') }}" id="title">
         </div>
         <div class="form-group">
             <label for="description">Текст</label>
-            <textarea type="text" class="form-control" name="description" id="description"></textarea>
+            <textarea type="text" class="form-control" name="description" value="{!! old('description') !!}" id="description"></textarea>
         </div>
 
         <br><button type="submit" class="btn btn-success">Сохранить</button>
