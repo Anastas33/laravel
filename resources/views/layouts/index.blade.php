@@ -6,9 +6,9 @@
     <title>@section('title') Админка @show</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    @include('news.inc.css')
+    @include('guest.news.inc.css')
 
-    @include('news.inc.jsBegin')
+    @include('guest.news.inc.jsBegin')
 
 </head>
 
@@ -41,8 +41,10 @@
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
                     <li class="@if(request()->is('/')) active @endif"><a href="{{ route('main') }}">Приветствие</a></li>
-                    <li class="@if(request()->is('categories')) active @endif"><a href="{{ route('categories') }}">Категории новостей</a></li>
-                    <li class="@if(request()->is('news')) active @endif"><a href="{{ route('news') }}">Все новости</a></li>
+                    <li class="@if(request()->is('categories')) active @endif"><a href="{{ route('categories.index') }}">Категории новостей</a></li>
+                    <li class="@if(request()->is('allNews')) active @endif"><a href="{{ route('allNews') }}">Все новости</a></li>
+                    <li class="@if(request()->is('feedback')) active @endif"><a href="{{ route('feedback.index') }}">Обратная связь</a></li>
+                    <li class="@if(request()->is('order')) active @endif"><a href="{{ route('order.index') }}">Сделать заказ</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
@@ -59,7 +61,7 @@
 
 </div><!--/.fluid-container-->
 
-@include('news.inc.jsEnd')
+@include('guest.news.inc.jsEnd')
 
 </body>
 </html>
