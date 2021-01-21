@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class AllNewsController extends Controller
@@ -12,9 +14,11 @@ class AllNewsController extends Controller
      */
     public function index()
     {
+        $news = (new News())->getAllNews();
+        $categories = (new Category())->getAllCategories();
         return view('guest.news.showAllNews', [
-            'news' => $this->news,
-            'categories' => $this->categories
+            'newsList' => $news,
+            'categories' => $categories
         ]);
     }
 }

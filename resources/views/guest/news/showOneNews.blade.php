@@ -4,9 +4,9 @@
     Новость - @parent
 @endsection
 @section('content')
-    <h1>{{ $news['title'] }}</h1>
-    <div>{{ $news['text'] }}</div>
+    <h1>{{ $news->title }}</h1>
+    <div>{{ $news->description }}</div>
     <p>
-        <a href="{{ route('categories.news.index', ['category' => $categoryId]) }}">Вернуться назад</a>
+        <a href="{{ route('categories.news.index', ['category' => $category->id]) }}">Вернуться назад</a>
     </p>
 @endsection
