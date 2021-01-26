@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -12,25 +14,20 @@ class NewsController extends Controller
      * Display a listing of the resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index(int $id)
     {
-        $news = Arr::where($this->news, function ($value, $key) use ($id) {
-            if($value['category_id'] == $id) {
-                return $value;
-            }
-        });
-
-        if(!empty($news)) {
-            return view('guest.news.showAllNewsOfCategory', [
-                'news' => $news,
-                'categories' => $this->categories,
-                'id' => $id
-            ]);
+        $news = (new News())->getAllNews();
+        $category = (new Category())->getCategory($id);
+        if(!$category) {
+            return abort('404');
         }
 
-        return redirect()->route('categories.index');
+        return view('guest.news.showAllNewsOfCategory', [
+            'newsList' => $news,
+            'category' => $category
+        ]);
     }
 
     /**
@@ -59,24 +56,17 @@ class NewsController extends Controller
      *
      * @param int $categoryId
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(int $categoryId, int $id)
     {
-        $news = Arr::where($this->news, function ($value, $key) use ($categoryId, $id) {
-            if($value['category_id'] == $categoryId && $key == $id) {
-                return $value;
-            }
-        });
-
-        if(isset($news[$id])) {
-            $news = $news[$id];
-        }
+        $news = (new News())->getNews($id);
+        $category = (new Category())->getCategory($categoryId);
 
         if(!empty($news)) {
             return view('guest.news.showOneNews', [
                 'news' => $news,
-                'categoryId' => $categoryId
+                'category' => $category
             ]);
         }
 

@@ -5,10 +5,10 @@
 @endsection
 @section('content')
     <h1>Категории новостей</h1>
-    @forelse ($categories as $key => $category)
-        @isset($category['title'])
+    @forelse ($categories as $category)
+        @isset($category->title)
             <h2>
-                <a href="{{ route('categories.news.index', ['category' => $key]) }}">{{ $category['title'] }}</a>
+                <a href="{{ route('categories.news.index', ['category' => $category->id]) }}">{{ $category->title }}</a>
             </h2>
         @endisset
     @empty

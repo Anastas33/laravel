@@ -35,7 +35,6 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->all());
         return response('Ваш отзыв успешно отправлен', 200)->header('Content-Type', 'text/plain');
     }
 
