@@ -23,7 +23,9 @@ Route::resources([
     '/categories' => \App\Http\Controllers\Guest\CategoryController::class,
     '/categories.news' => \App\Http\Controllers\Guest\NewsController::class,
     '/feedback' => \App\Http\Controllers\Guest\FeedbackController::class,
-    '/order' => \App\Http\Controllers\Guest\OrderController::class
+    '/order' => \App\Http\Controllers\Guest\OrderController::class,
+    '/allFeedbacks' => \App\Http\Controllers\Guest\AllFeedbackController::class,
+    '/allOrders' => \App\Http\Controllers\Guest\AllOrderController::class
 ]);
 
 

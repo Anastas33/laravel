@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -18,11 +19,8 @@ class NewsController extends Controller
      */
     public function index(int $id)
     {
-        $news = (new News())->getAllNews();
-        $category = (new Category())->getCategory($id);
-        if(!$category) {
-            return abort('404');
-        }
+        $news = News::with('category')->paginate(10);
+        $category = Category::findOrFail($id);
 
         return view('guest.news.showAllNewsOfCategory', [
             'newsList' => $news,
@@ -54,23 +52,16 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $categoryId
-     * @param int $id
+     * @param Category $category
+     * @param News $news
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(int $categoryId, int $id)
+    public function show(Category $category, News $news)
     {
-        $news = (new News())->getNews($id);
-        $category = (new Category())->getCategory($categoryId);
-
-        if(!empty($news)) {
-            return view('guest.news.showOneNews', [
-                'news' => $news,
-                'category' => $category
-            ]);
-        }
-
-        return redirect()->route('categories.show', ['category' => $categoryId]);
+        return view('guest.news.showOneNews', [
+            'news' => $news,
+            'category' => $category
+        ]);
     }
 
     /**

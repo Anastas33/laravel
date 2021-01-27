@@ -14,8 +14,8 @@ class AllNewsController extends Controller
      */
     public function index()
     {
-        $news = (new News())->getAllNews();
-        $categories = (new Category())->getAllCategories();
+        $news = News::all();
+        $categories = Category::all();
         return view('guest.news.showAllNews', [
             'newsList' => $news,
             'categories' => $categories

@@ -12,8 +12,8 @@
     <form method="post" action="{{ route('order.store') }}">
         @csrf
         <div class="form-group">
-            <label for="name">Имя</label>
-            <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
+            <label for="user_name">Имя</label>
+            <input type="text" class="form-control" name="user_name" value="{{ old('user_name') }}" id="user_name">
         </div>
         <div class="form-group">
             <label for="phone">Номер телефона</label>

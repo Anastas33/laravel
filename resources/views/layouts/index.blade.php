@@ -45,6 +45,8 @@
                     <li class="@if(request()->is('allNews')) active @endif"><a href="{{ route('allNews') }}">Все новости</a></li>
                     <li class="@if(request()->is('feedback')) active @endif"><a href="{{ route('feedback.index') }}">Обратная связь</a></li>
                     <li class="@if(request()->is('order')) active @endif"><a href="{{ route('order.index') }}">Сделать заказ</a></li>
+                    <li class="@if(request()->is('allFeedbacks')) active @endif"><a href="{{ route('allFeedbacks.index') }}">Все отзывы</a></li>
+                    <li class="@if(request()->is('allOrders')) active @endif"><a href="{{ route('allOrders.index') }}">Все заказы</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->

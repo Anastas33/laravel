@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -31,11 +32,22 @@ class FeedbackController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        return response('Ваш отзыв успешно отправлен', 200)->header('Content-Type', 'text/plain');
+        $request->validate([
+            'user_name' => 'required|string',
+            'comment' => 'required',
+        ]);
+        $data = $request->except('_token');
+        $feedback = Feedback::create($data);
+        if($feedback) {
+            return redirect()->route('feedback.index')
+                ->with('success', 'Ваш отзыв успешно отправлен');
+        }
+
+        return back()->withInput();
     }
 
     /**

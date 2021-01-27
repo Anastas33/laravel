@@ -12,18 +12,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response|void
      */
     public function index()
     {
-        $categories = (new Category())->getAllCategories();
-        if(!empty($categories)) {
-            return view('guest.categories.index', [
-                'categories' => $categories
-            ]);
+        $categories = Category::all();
+
+        if(!$categories) {
+            return abort('404');
         }
 
-        return redirect()->route('main');
+        return view('guest.categories.index', [
+            'categories' => $categories
+        ]);
     }
 
     /**
