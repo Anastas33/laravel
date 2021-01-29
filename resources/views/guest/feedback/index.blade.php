@@ -1,33 +1,33 @@
-@extends('layouts.admin')
+@extends('layouts.index')
 
 @section('title')
-    Все новости - @parent
+    Все отзывы - @parent
 @endsection
 @section('content')
     @if(session()->has('success'))
         <div class="alert alert-success">{{ session()->get('success') }}</div>
     @endif
-    <h1>Все новости из всех категорий</h1>
+    <h1>Все отзывы</h1>
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Категория</th>
-            <th>Новость</th>
+            <th>Имя</th>
+            <th>Отзыв</th>
             <th>Дата обновления</th>
             <th>Управление</th>
         </tr>
         </thead>
         <tbody>
-        @forelse ($newsList as $news)
+        @forelse ($feedbacks as $feedback)
             <tr>
-                <td>{{ $news->id }}</td>
-                <td>{{ $news->category->title }}</td>
-                <td>{{ $news->title }}</td>
-                <td>{{ $news->updated_at->format('d-m-Y H:i:s') }}</td>
+                <td>{{ $feedback->id }}</td>
+                <td>{{ $feedback->user_name }}</td>
+                <td>{{ $feedback->comment }}</td>
+                <td>{{ $feedback->updated_at->format('d-m-Y H:i:s') }}</td>
                 <td>
-                    <a href="{{ route('news.edit', ['news' => $news->id]) }}">Редакировать</a>
-                    <form method="post" action="{{ route('news.destroy', ['news' => $news]) }}">
+                    <a href="{{ route('allFeedbacks.edit', ['allFeedback' => $feedback->id]) }}">Редакировать</a>
+                    <form method="post" action="{{ route('allFeedbacks.destroy', ['allFeedback' => $feedback]) }}">
                         @method('delete')
                         @csrf
                         <br><button type="submit" class="btn btn-success">Удалить</button>
@@ -35,9 +35,9 @@
                 </td>
             </tr>
         @empty
-            <h2>Нет новостей</h2>
+            <h2>Нет отзывов</h2>
         @endforelse
         </tbody>
     </table>
-    {{ $newsList->links() }}
+    {{ $feedbacks->links() }}
 @endsection

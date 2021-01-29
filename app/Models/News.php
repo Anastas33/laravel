@@ -11,18 +11,16 @@ class News extends Model
     use HasFactory;
 
     protected $table = 'news';
+    protected $primaryKey = 'id';
+    protected $fillable = ['category_id', 'title', 'slug', 'image', 'description', 'source'];
 
-    public function getAllNews(): array
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return DB::table($this->table)
-            ->join('categories', 'categories.id', '=', 'news.category_id')
-            ->select('news.*', 'categories.title as category_title')
-            ->get()
-            ->toArray();
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function getNews(int $id)
+    public function source(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return DB::table($this->table)->find($id);
+        return $this->belongsTo(Source::class, 'source', 'id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -31,32 +32,23 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'user_name' => 'required|string',
+            'phone' => 'required',
+            'email' => 'required',
+            'info' => 'required',
+        ]);
         $data = $request->except('_token');
 
-        $saveFile = function (array $data) {
-            $responseData = [];
-            $fileOrders = storage_path('app/orders.txt');
-            if(file_exists($fileOrders)) {
-                $file = file_get_contents($fileOrders);
-                $response = json_decode($file, true);
-            }
+        if(Order::create($data)) {
+            return redirect()->route('order.index')->with('success', 'Заказ успешно отправлен');
+        }
 
-            $responseData[] = $data;
-            if(isset($response) && !empty($response)) {
-                $r = array_merge($response, $responseData);
-            } else {
-                $r = $responseData;
-            }
-            file_put_contents($fileOrders, json_encode($r));
-        };
-
-        $saveFile($data);
-
-        return redirect()->route('order.index')->with('success', 'Заказ успешно отправлен');
+        return back()->withInput();
     }
 
     /**

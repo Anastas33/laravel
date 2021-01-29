@@ -4,20 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
-class Category extends Model
+class Source extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $table = 'sources';
     protected $primaryKey = 'id';
+    protected $fillable = ['title', 'url'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(News::class, 'category_id', 'id');
+        return $this->hasMany(News::class, 'source', 'id');
     }
 }

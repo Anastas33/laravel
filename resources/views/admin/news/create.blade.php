@@ -24,6 +24,14 @@
             <label for="description">Текст</label>
             <textarea type="text" class="form-control" name="description" value="{!! old('description') !!}" id="description"></textarea>
         </div>
+        <div class="form-group">
+            <label for="source">Источник информации</label>
+            <select class="form-control" name="source" id="source">
+                @foreach($sources as $source)
+                    <option value="{{ $source->id }}">{{ $source->url }}</option>
+                @endforeach
+            </select>
+        </div>
 
         <br><button type="submit" class="btn btn-success">Сохранить</button>
     </form>

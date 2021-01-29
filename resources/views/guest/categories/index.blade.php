@@ -4,6 +4,9 @@
     Категории - @parent
 @endsection
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success">{{ session()->get('success') }}</div>
+    @endif
     <h1>Категории новостей</h1>
     @forelse ($categories as $category)
         @isset($category->title)

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class NewsSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class NewsSeeder extends Seeder
             $data[] = [
                 'category_id' => rand(1, 10),
                 'title' => $title,
-                'slug' => \Illuminate\Support\Str::slug($title),
+                'slug' => Str::slug($title),
                 'description' => $faker->realText(mt_rand(100, 200)),
                 'source' => rand(1, 10)
             ];
