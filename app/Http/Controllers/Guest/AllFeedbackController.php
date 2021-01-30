@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FeedbackUpdateRequest;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 
@@ -70,21 +71,21 @@ class AllFeedbackController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param FeedbackUpdateRequest $request
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(FeedbackUpdateRequest $request, int $id)
     {
-        $data = $request->except('_token');
+        $data = $request->validated();
 
         $feedback = Feedback::find($id);
         if($feedback->fill($data)->save()) {
             return redirect()->route('allFeedbacks.index')
-                ->with('success', 'Отзыв был обновлен');
+                ->with('success', __('messages.guest.feedback.edit.success'));
         }
 
-        return back();
+        return back()->withInput();
     }
 
     /**
@@ -98,6 +99,6 @@ class AllFeedbackController extends Controller
         $feedback = Feedback::find($id);
         $feedback->delete();
         return redirect()->route('allFeedbacks.index')
-            ->with('success', 'Отзыв был удален');
+            ->with('success', __('messages.guest.feedback.destroy.success'));
     }
 }

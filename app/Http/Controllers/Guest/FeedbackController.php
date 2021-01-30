@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FeedbackRequest;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 
@@ -31,20 +32,16 @@ class FeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param FeedbackRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(FeedbackRequest $request)
     {
-        $request->validate([
-            'user_name' => 'required|string',
-            'comment' => 'required',
-        ]);
-        $data = $request->except('_token');
+        $data = $request->validated();
         $feedback = Feedback::create($data);
         if($feedback) {
             return redirect()->route('feedback.index')
-                ->with('success', 'Ваш отзыв успешно отправлен');
+                ->with('success', __('messages.guest.feedback_create.success'));
         }
 
         return back()->withInput();

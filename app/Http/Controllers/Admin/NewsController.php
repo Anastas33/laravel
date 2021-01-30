@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequest;
+use App\Http\Requests\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Source;
@@ -44,24 +46,21 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|min:3'
-        ]);
-        $data = $request->except('_token');
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
 
         $news = News::create($data);
         if($news) {
             return redirect()->route('news.index')
-                ->with('success', 'Новость была добавлена');
+                ->with('success', trans('messages.admin.news.create.success'));
         }
 
-        return back()->withInput();
+        return back()->withInput()->with('fail', trans('messages.admin.news.create.fail'));
     }
 
     /**
@@ -96,25 +95,22 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateRequest $request
      * @param News $news
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
-        $request->validate([
-            'title' => 'required|string|min:3'
-        ]);
-        $data = $request->only('category_id', 'title', 'description');
+        $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
 
         $status = $news->fill($data)->save();
         if($status) {
             return redirect()->route('news.index')
-                ->with('success', 'Новость была обновлена');
+                ->with('success', __('messages.admin.news.edit.success'));
         }
 
-        return back();
+        return back()->withInput()->with('fail', __('messages.admin.news.edit.fail'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -31,21 +32,15 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param OrderRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        $request->validate([
-            'user_name' => 'required|string',
-            'phone' => 'required',
-            'email' => 'required',
-            'info' => 'required',
-        ]);
-        $data = $request->except('_token');
+        $data = $request->validated();
 
         if(Order::create($data)) {
-            return redirect()->route('order.index')->with('success', 'Заказ успешно отправлен');
+            return redirect()->route('order.index')->with('success', trans('messages.guest.order_create.success'));
         }
 
         return back()->withInput();

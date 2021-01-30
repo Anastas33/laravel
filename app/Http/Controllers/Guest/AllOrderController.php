@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -70,27 +71,21 @@ class AllOrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param OrderUpdateRequest $request
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(OrderUpdateRequest $request, int $id)
     {
-        $request->validate([
-            'user_name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'info' => 'required',
-        ]);
-        $data = $request->except('_token');
+        $data = $request->validated();
         $order = Order::find($id);
         $status = $order->fill($data)->save();
         if($status) {
             return redirect()->route('allOrders.index')
-                ->with('success', 'Заказ был обновлен');
+                ->with('success', __('messages.guest.order.edit.success'));
         }
 
-        return back();
+        return back()->withInput();
     }
 
     /**
@@ -103,6 +98,6 @@ class AllOrderController extends Controller
     {
         Order::find($id)->delete();
         return redirect()->route('allOrders.index')
-            ->with('success', 'Заказ был удален');
+            ->with('success', __('messages.guest.order.destroy.success'));
     }
 }
