@@ -13,6 +13,12 @@
                     Создать новость
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->is('admin/profiles')) active @endif" aria-current="page" href="{{ route('profiles.index') }}">
+                    <span data-feather="home"></span>
+                    Список учетных записей
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
