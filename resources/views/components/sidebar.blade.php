@@ -19,6 +19,12 @@
                     Список учетных записей
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->is('parser')) active @endif" aria-current="page" href="{{ route('parser') }}">
+                    <span data-feather="home"></span>
+                    Парсинг
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

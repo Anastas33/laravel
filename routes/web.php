@@ -75,3 +75,9 @@ Route::resources([
     '/allFeedbacks' => \App\Http\Controllers\Guest\AllFeedbackController::class,
     '/allOrders' => \App\Http\Controllers\Guest\AllOrderController::class
 ]);
+
+Route::get('/parser', [\App\Http\Controllers\ParserController::class, 'index'])->name('parser');
+Route::get('/auth/vk/redirect', [\App\Http\Controllers\SocialVKController::class, 'redirect'])
+    ->name('vk.redirect');
+Route::get('/auth/vk/callback', [\App\Http\Controllers\SocialVKController::class, 'callback'])
+    ->name('vk.callback');
