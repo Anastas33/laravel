@@ -47,6 +47,7 @@
                                     <label class="form-check-label" for="remember">
                                         {{ __('Запомнить меня') }}
                                     </label>
+                                    <a href="{{ route('vk.redirect') }}">Войти через VK</a>
                                 </div>
                             </div>
                         </div>

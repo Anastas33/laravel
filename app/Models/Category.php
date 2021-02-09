@@ -12,6 +12,7 @@ class Category extends Model
 
     protected $table = 'categories';
     protected $primaryKey = 'id';
+    protected $fillable = ['title', 'description'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
