@@ -14,3 +14,5 @@
 <script src="https://getbootstrap.com/2.0.2/assets/js/bootstrap-collapse.js"></script>
 <script src="https://getbootstrap.com/2.0.2/assets/js/bootstrap-carousel.js"></script>
 <script src="https://getbootstrap.com/2.0.2/assets/js/bootstrap-typeahead.js"></script>
+
+@stack('js')

@@ -15,6 +15,6 @@ class Source extends Model
 
     public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(News::class, 'source', 'id');
+        return $this->hasMany(News::class, 'source_id', 'id');
     }
 }
