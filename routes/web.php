@@ -63,8 +63,11 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-    Route::resource('/news', \App\Http\Controllers\Admin\NewsController::class);
-    Route::resource('/profiles', \App\Http\Controllers\Admin\ProfileController::class);
+    Route::resources([
+        '/news' => \App\Http\Controllers\Admin\NewsController::class,
+        '/profiles' => \App\Http\Controllers\Admin\ProfileController::class,
+        '/sources' => \App\Http\Controllers\Admin\SourceController::class
+    ]);
 });
 
 Route::resources([
@@ -77,6 +80,7 @@ Route::resources([
 ]);
 
 Route::get('/parser', [\App\Http\Controllers\ParserController::class, 'index'])->name('parser');
+Route::get('/parser/news', [\App\Http\Controllers\ParserController::class, 'addNews'])->name('parser.news');
 Route::get('/auth/vk/redirect', [\App\Http\Controllers\SocialVKController::class, 'redirect'])
     ->name('vk.redirect');
 Route::get('/auth/vk/callback', [\App\Http\Controllers\SocialVKController::class, 'callback'])

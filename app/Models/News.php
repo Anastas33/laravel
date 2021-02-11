@@ -12,7 +12,7 @@ class News extends Model
 
     protected $table = 'news';
     protected $primaryKey = 'id';
-    protected $fillable = ['category_id', 'title', 'slug', 'image', 'description', 'source'];
+    protected $fillable = ['category_id', 'title', 'slug', 'image', 'description', 'created_at', 'status', 'source_id'];
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -21,6 +21,6 @@ class News extends Model
 
     public function source(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Source::class, 'source', 'id');
+        return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 }

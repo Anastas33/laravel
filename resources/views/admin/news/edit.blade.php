@@ -39,8 +39,8 @@
             @error('description') <div class="alert alert-danger">{{ $message }}</div> @enderror
         </div>
         <div class="form-group">
-            <label for="source">Источник информации</label>
-            <select class="form-control" name="source" id="source">
+            <label for="source_id">Источник информации</label>
+            <select class="form-control" name="source_id" id="source_id">
                 @foreach($sources as $source)
                     <option value="{{ $source->id }}">{{ $source->url }}</option>
                 @endforeach

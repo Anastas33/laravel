@@ -14,6 +14,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if(request()->is('admin/sources')) active @endif" aria-current="page" href="{{ route('sources.index') }}">
+                    <span data-feather="home"></span>
+                    Список источников информации
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link @if(request()->is('admin/profiles')) active @endif" aria-current="page" href="{{ route('profiles.index') }}">
                     <span data-feather="home"></span>
                     Список учетных записей
@@ -23,6 +29,12 @@
                 <a class="nav-link @if(request()->is('parser')) active @endif" aria-current="page" href="{{ route('parser') }}">
                     <span data-feather="home"></span>
                     Парсинг
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->is('parser/news')) active @endif" aria-current="page" href="{{ route('parser.news') }}">
+                    <span data-feather="home"></span>
+                    Парсинг новостей
                 </a>
             </li>
         </ul>

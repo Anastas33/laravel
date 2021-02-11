@@ -14,6 +14,8 @@
             <th>ID</th>
             <th>Категория</th>
             <th>Новость</th>
+            <th>Описание</th>
+            <th>Изображение</th>
             <th>Дата обновления</th>
             <th>Управление</th>
         </tr>
@@ -24,8 +26,11 @@
                 <td>{{ $news->id }}</td>
                 <td>{{ $news->category->title }}</td>
                 <td>{{ $news->title }}</td>
+                <td>{!! $news->description !!}</td>
+                <td><img src="{{ \Storage::url($news->image) }}" alt="image" style="width: 150px"></td>
                 <td>{{ $news->updated_at->format('d-m-Y H:i:s') }}</td>
                 <td>
+                    <a href="{{ route('news.show', ['news' => $news->id]) }}">Открыть</a>
                     <a href="{{ route('news.edit', ['news' => $news->id]) }}">Редакировать</a>
                     <form method="post" action="{{ route('news.destroy', ['news' => $news]) }}">
                         @method('delete')

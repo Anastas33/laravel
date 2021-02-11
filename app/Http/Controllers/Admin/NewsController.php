@@ -60,6 +60,14 @@ class NewsController extends Controller
     {
         $data = $request->validated();
         $data['slug'] = Str::slug($data['title']);
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $name = Str::random(8);
+
+            $path = $file->storeAs('news', $name. "." . $ext);
+            $data['image'] = $path;
+        }
 
         $news = News::create($data);
         if($news) {
@@ -78,7 +86,8 @@ class NewsController extends Controller
      */
     public function show(int $id)
     {
-        //
+        $news = News::with(['category', 'source'])->find($id);
+        return view('admin.news.show', ['news' => $news]);
     }
 
     /**
